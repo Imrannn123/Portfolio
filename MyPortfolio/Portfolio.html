@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imran Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    /* Cursor glow */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(59,130,246,0.15), transparent 40%);
+      transition: background 0.2s;
+      z-index: 0;
+    }
+
+    /* Reveal animation */
+    .reveal { opacity: 0; transform: translateY(40px) scale(0.98); }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      transition: all 1s var(--ease-smooth);
+    }
+
+    /* Stagger */
+    .stagger > * { opacity: 0; transform: translateY(30px); }
+    .stagger.active > * {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.8s var(--ease-smooth);
+    }
+    .stagger.active > *:nth-child(1) { transition-delay: 0.1s; }
+    .stagger.active > *:nth-child(2) { transition-delay: 0.2s; }
+    .stagger.active > *:nth-child(3) { transition-delay: 0.3s; }
+
+    /* Card hover */
+    .card {
+      transition: transform 0.4s var(--ease-smooth), box-shadow 0.4s var(--ease-smooth);
+      will-change: transform;
+    }
+    .card:hover {
+      transform: translateY(-12px) scale(1.03);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+    }
+
+    /* Button */
+    .btn {
+      transition: transform 0.3s var(--ease-smooth), box-shadow 0.3s var(--ease-smooth);
+    }
+    .btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 15px 30px rgba(59,130,246,0.3);
+    }
+
+    /* Navbar */
+    .nav {
+      transition: all 0.4s var(--ease-smooth);
+    }
+    .nav.scrolled {
+      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,0.7);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    /* Parallax */
+    .parallax {
+      transform: translateY(var(--scroll, 0px));
+      transition: transform 0.1s linear;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans relative">
+
+  <!-- Navbar -->
+  <header id="navbar" class="nav flex justify-between items-center p-6 fixed w-full top-0 z-50">
+    <h1 class="text-xl font-bold">Code.I</h1>
+    <nav class="space-x-6">
+      <a href="#home" class="hover:text-blue-500">Home</a>
+      <a href="#projects" class="hover:text-blue-500">Projects</a>
+      <a href="#contact" class="hover:text-blue-500">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="text-center py-32 px-4 reveal parallax">
+    <h2 class="text-5xl font-bold mb-4">I build modern websites</h2>
+    <p class="text-gray-600 max-w-xl mx-auto">
+      Clean, smooth, and high-performance websites with cheap prices.
+    </p>
+    <a href="#projects" class="inline-block mt-6 px-6 py-3 bg-blue-500 text-white rounded-2xl btn">
+      View My Work
+    </a>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="py-20 px-6 max-w-6xl mx-auto">
+    <h3 class="text-2xl font-bold mb-10 text-center reveal">Projects</h3>
+    <div class="grid md:grid-cols-3 gap-8 stagger reveal">
+
+      <div class="bg-white rounded-2xl shadow p-4 card">
+        <img src="Fitness.png" class="rounded-xl mb-4" alt="project">
+        <h4 class="font-semibold text-lg">Fitness Tracker</h4>
+        <p class="text-sm text-gray-600">Track workouts and calories.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow p-4 card">
+        <img src="Business.png" class="rounded-xl mb-4" alt="project">
+        <h4 class="font-semibold text-lg">Business Website</h4>
+        <p class="text-sm text-gray-600">Simple and modern UI.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow p-4 card">
+        <img src="BMI.png" class="rounded-xl mb-4" alt="project">
+        <h4 class="font-semibold text-lg">BMI Calculator</h4>
+        <p class="text-sm text-gray-600">Interactive calculator.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-20 text-center bg-white reveal">
+    <h3 class="text-2xl font-bold mb-4">Contact Me</h3>
+    <p class="text-gray-600 mb-6">Let’s build something smooth together</p>
+	<p class="text-blue-600 mb-6">Email me - codeicustom@gmail.com</p>
+    <a href="https://wa.link/pjp0aj" class="px-6 py-3 bg-green-500 text-white rounded-2xl btn">
+      WhatsApp Me
+    </a>
+  </section>
+
+  <footer class="text-center py-6 text-gray-500 text-sm">
+    © 2026 Code.I
+  </footer>
+
+  <script>
+    // Cursor glow
+    document.addEventListener('mousemove', e => {
+      document.documentElement.style.setProperty('--x', e.clientX + 'px');
+      document.documentElement.style.setProperty('--y', e.clientY + 'px');
+    });
+
+    // Reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Navbar scroll
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    });
+
+    // Parallax
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      document.querySelectorAll('.parallax').forEach(el => {
+        el.style.setProperty('--scroll', scrollY * -0.1 + 'px');
+      });
+    });
+  </script>
+
+</body>
+</html>
